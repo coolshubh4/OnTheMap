@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		98D3CDE91B88634F003640ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D3CDE81B88634F003640ED /* AppDelegate.swift */; };
-		98D3CDEB1B88634F003640ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D3CDEA1B88634F003640ED /* ViewController.swift */; };
+		98D3CDEB1B88634F003640ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D3CDEA1B88634F003640ED /* LoginViewController.swift */; };
 		98D3CDEE1B88634F003640ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98D3CDEC1B88634F003640ED /* Main.storyboard */; };
 		98D3CDF01B88634F003640ED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98D3CDEF1B88634F003640ED /* Images.xcassets */; };
 		98D3CDF31B88634F003640ED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98D3CDF11B88634F003640ED /* LaunchScreen.xib */; };
@@ -29,7 +29,7 @@
 		98D3CDE31B88634F003640ED /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98D3CDE71B88634F003640ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98D3CDE81B88634F003640ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		98D3CDEA1B88634F003640ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		98D3CDEA1B88634F003640ED /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		98D3CDED1B88634F003640ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		98D3CDEF1B88634F003640ED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		98D3CDF21B88634F003640ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				98D3CDE81B88634F003640ED /* AppDelegate.swift */,
-				98D3CDEA1B88634F003640ED /* ViewController.swift */,
+				98D3CDEA1B88634F003640ED /* LoginViewController.swift */,
 				98D3CDEC1B88634F003640ED /* Main.storyboard */,
 				98D3CDEF1B88634F003640ED /* Images.xcassets */,
 				98D3CDF11B88634F003640ED /* LaunchScreen.xib */,
@@ -212,7 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98D3CDEB1B88634F003640ED /* ViewController.swift in Sources */,
+				98D3CDEB1B88634F003640ED /* LoginViewController.swift in Sources */,
 				98D3CDE91B88634F003640ED /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +411,7 @@
 				98D3CE041B886350003640ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		98D3CE051B886350003640ED /* Build configuration list for PBXNativeTarget "OnTheMapTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +420,7 @@
 				98D3CE071B886350003640ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
