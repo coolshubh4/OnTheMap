@@ -14,7 +14,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var headerTextLabel: UILabel!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var loginButton: BorderedButton!
     @IBOutlet weak var debugTextLabel: UILabel!
     
     var backgroundGradient: CAGradientLayer? = nil
@@ -29,17 +29,33 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        //subscribeToKeyboardNotification()
+        subscribeToKeyboardNotification()
         addKeyboardDismissRecognizer()
     }
     
     override func   viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        //unsubscribeToKeyboardNotification()
+        unsubscribeToKeyboardNotification()
         removeKeyboardDismissRecognizer()
     }
     
     @IBAction func login(sender: UIButton) {
+        
+        if usernameTextField.text.isEmpty && passwordTextField.text.isEmpty {
+            debugTextLabel.text = "Please enter user-name and password"
+        } else if usernameTextField.text.isEmpty{
+            debugTextLabel.text = "Please enter user-name"
+        } else if passwordTextField.text.isEmpty {
+            debugTextLabel.text = "Please enter password"
+        } else {
+            completeLogin()
+        }
+    }
+    
+    func completeLogin() {
+        
+        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("OnTheMapTabBarController") as! UITabBarController
+        presentViewController(controller, animated: true, completion: nil)
     }
 
 }
@@ -87,6 +103,8 @@ extension LoginViewController {
         /* Configure debug text label */
         headerTextLabel.font = UIFont(name: "AvenirNext-Medium", size: 20)
         headerTextLabel.textColor = UIColor.whiteColor()
+        debugTextLabel.font = UIFont(name: "AvenirNext-Medium", size: 20)
+        debugTextLabel.textColor = UIColor.whiteColor()
         
         /* Configure tap recognizer */
         tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
