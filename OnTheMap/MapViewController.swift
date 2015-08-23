@@ -18,6 +18,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Add NavigationItems
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: nil)
+        let pinButton = UIBarButtonItem(image: UIImage(named: "Pin"), style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        navigationItem.rightBarButtonItems = [refreshButton, pinButton]
+        
         mapView.delegate = self
         // The "locations" array is an array of dictionary objects that are similar to the JSON
         // data that you can download from parse.
@@ -100,7 +107,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // Some sample data. This is a dictionary that is more or less similar to the
     // JSON data that you will download from Parse.
-    
     func hardCodedLocationData() -> [[String : AnyObject]] {
         return  [
             [
@@ -161,5 +167,5 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 "updatedAt" : "2015-03-13T03:37:58.389Z"
             ]
         ]
-    }
+    }                
 }
