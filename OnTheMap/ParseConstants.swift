@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 coolshubh4. All rights reserved.
 //
 
-extension ParseClient {
+extension OnTheMapClient {
 
-    struct constants {
+    struct ParseConstants {
         
         static let AppId = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
         static let ApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
@@ -16,12 +16,12 @@ extension ParseClient {
         static let BaseURL = "https://api.parse.com/1/"
     }
     
-    struct Methods {
+    struct ParseMethods {
     
         static let StudentLocation = "classes/StudentLocation"
     }
     
-    struct ParameterKeys {
+    struct ParseParameterKeys {
     
         static let AppIdParam = "X-Parse-Application-Id"
         static let ApiKeyParam = "X-Parse-REST-API-Key"
@@ -29,7 +29,7 @@ extension ParseClient {
     
     
     
-    struct JSONResponseKeys {
+    struct ParseJSONResponseKeys {
     
         static let ObjectId = "objectId"
         static let UniqueKey = "uniqueKey"

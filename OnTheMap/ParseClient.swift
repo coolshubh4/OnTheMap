@@ -6,6 +6,4 @@
 //  Copyright (c) 2015 coolshubh4. All rights reserved.
 //
 
-import Foundation
-
-class ParseClient: NSObject {}
+extension OnTheMapClient {}
