@@ -1,28 +1,62 @@
 //
-//  OnTheMapStudentPin.swift
+//  StudentInfo.swift
 //  OnTheMap
 //
 //  Created by Shubham Tripathi on 22/08/15.
 //  Copyright (c) 2015 coolshubh4. All rights reserved.
 //
 
-import Foundation
+struct StudentInfo {
+    
+    var createdAt: String? = nil
+    var firstName: String? = nil
+    var lastName: String? = nil
+    var latitude: Double? = nil
+    var longitude: Double? = nil
+    var mapString: String? = nil
+    var mediaURL: String? = nil
+    var objectId: String? = nil
+    var uniqueKey: Int? = nil
+    var updatedAt: String? = nil
+    
+    init (dictionary: [String: AnyObject]) {
+    
+        createdAt = dictionary[ParseClient.JSONResponseKeys.CreatedAt] as? String
+        firstName = dictionary[ParseClient.JSONResponseKeys.FirstName] as? String
+        lastName = dictionary[ParseClient.JSONResponseKeys.LastName] as? String
+        latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Double
+        longitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Double
+        mapString = dictionary[ParseClient.JSONResponseKeys.MapString] as? String
+        mediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] as? String
+        objectId = dictionary[ParseClient.JSONResponseKeys.ObjectId] as? String
+        uniqueKey = dictionary[ParseClient.JSONResponseKeys.UniqueKey] as? Int
+        updatedAt = dictionary[ParseClient.JSONResponseKeys.UpdatedAt] as? String
+    }
+    
+    static func studentInfoFromResults(results: [[String: AnyObject]]) -> [StudentInfo] {
+    
+        var student = [StudentInfo]()
+        
+        for result in results {
+            student.append(StudentInfo(dictionary: result))
+        }
+        return student
+    }
 
-struct StudentPin {
-    
-//    var createdAt: String? = nil
-//    var firstName: String? = nil
-//    var lastName: String? = nil
-//    var latitude: Float? = nil
-//    var longitude: Float? = nil
-//    var mapString: String? = nil
-//    var mediaURL: String? = nil
-//    var objectId: String? = nil
-//    var uniqueKey: Int? = nil
-//    var updatedAt: String? = nil
-    
-    func hardCodedLocationData() -> [[String : AnyObject]] {
+    static func hardCodedLocationData() -> [[String : AnyObject]] {
         return  [
+            [
+                "createdAt" : "2015-08-22T22:27:14.456Z",
+                "firstName" : "Shubham",
+                "lastName" : "Tripathi",
+                "latitude" : 18.9750,
+                "longitude" : 72.8258,
+                "mapString" : "Mumbai, MH, India",
+                "mediaURL" : "https://www.linkedin.com/in/shubhamtripathi4",
+                "objectId" : "04041990",
+                "uniqueKey" : 04041990,
+                "updatedAt" : "2015-03-09T22:07:09.593Z"
+            ],
             [
                 "createdAt" : "2015-02-24T22:27:14.456Z",
                 "firstName" : "Jessica",
