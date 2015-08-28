@@ -21,16 +21,16 @@ struct StudentInfo {
     
     init (dictionary: [String: AnyObject]) {
     
-        createdAt = dictionary[ParseClient.JSONResponseKeys.CreatedAt] as? String
-        firstName = dictionary[ParseClient.JSONResponseKeys.FirstName] as? String
-        lastName = dictionary[ParseClient.JSONResponseKeys.LastName] as? String
-        latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Double
-        longitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Double
-        mapString = dictionary[ParseClient.JSONResponseKeys.MapString] as? String
-        mediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] as? String
-        objectId = dictionary[ParseClient.JSONResponseKeys.ObjectId] as? String
-        uniqueKey = dictionary[ParseClient.JSONResponseKeys.UniqueKey] as? Int
-        updatedAt = dictionary[ParseClient.JSONResponseKeys.UpdatedAt] as? String
+        createdAt = dictionary[OnTheMapClient.ParseJSONResponseKeys.CreatedAt] as? String
+        firstName = dictionary[OnTheMapClient.ParseJSONResponseKeys.FirstName] as? String
+        lastName = dictionary[OnTheMapClient.ParseJSONResponseKeys.LastName] as? String
+        latitude = dictionary[OnTheMapClient.ParseJSONResponseKeys.Latitude] as? Double
+        longitude = dictionary[OnTheMapClient.ParseJSONResponseKeys.Latitude] as? Double
+        mapString = dictionary[OnTheMapClient.ParseJSONResponseKeys.MapString] as? String
+        mediaURL = dictionary[OnTheMapClient.ParseJSONResponseKeys.MediaURL] as? String
+        objectId = dictionary[OnTheMapClient.ParseJSONResponseKeys.ObjectId] as? String
+        uniqueKey = dictionary[OnTheMapClient.ParseJSONResponseKeys.UniqueKey] as? Int
+        updatedAt = dictionary[OnTheMapClient.ParseJSONResponseKeys.UpdatedAt] as? String
     }
     
     static func studentInfoFromResults(results: [[String: AnyObject]]) -> [StudentInfo] {
