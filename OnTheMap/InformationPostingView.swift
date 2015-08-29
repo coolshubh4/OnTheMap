@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class InformationPostingView: UIViewController, MKMapViewDelegate {
+class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mediaText: UITextView!
@@ -21,7 +21,10 @@ class InformationPostingView: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         mapView.delegate = self
+        locationText.delegate = self
+        mediaText.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -35,8 +38,7 @@ class InformationPostingView: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func cancel(sender: AnyObject) {
-        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("OnTheMapTabBarController") as! UITabBarController
-        presentViewController(controller, animated: true, completion: nil)
+            dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func findOrSubmitButton(sender: UIButton!){
@@ -52,33 +54,11 @@ class InformationPostingView: UIViewController, MKMapViewDelegate {
         
         if action == "Find on the Map" {
             mediaText.text = "Enter URL to share"
-            
-            println("Geolocation - \(locationText.text)")
             getLatLonForLocation(locationText.text)
-            
         } else if action == "Submit" {
-            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("OnTheMapTabBarController") as! UITabBarController
-            presentViewController(controller, animated: true, completion: nil)
+            postStudentData()
         }
     }
-//    
-//    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-//        
-//        let reuseId = "pin"
-//        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
-//        println("Inside mapView func")
-//        if pinView == nil {
-//            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-//            //pinView!.canShowCallout = true
-//            pinView!.pinColor = .Red
-//            //pinView!.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
-//        }
-//        else {
-//            pinView!.annotation = annotation
-//        }
-//        
-//        return pinView
-//    }
     
     func getLatLonForLocation(userLocation: String!) {
         
@@ -86,7 +66,7 @@ class InformationPostingView: UIViewController, MKMapViewDelegate {
             
             if error != nil {
                 println("Error - \(error)")
-                let alert = UIAlertController(title: "alert", message: "location not found", preferredStyle: UIAlertControllerStyle.Alert)
+                let alert = UIAlertController(title: "alert", message: "\(self.locationText.text!) not found", preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Default, handler: nil))
                 alert.addAction(UIAlertAction(title: "cancel", style: UIAlertActionStyle.Cancel, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
@@ -95,12 +75,13 @@ class InformationPostingView: UIViewController, MKMapViewDelegate {
                 if placemarks == nil {
                     println("placemarks returned as nil")
                 } else {
-                    println("placemarks returned")
                     self.locationText.hidden = true
                     self.mapView.hidden = false
                     var placemark = placemarks[0] as! CLPlacemark
                     var annotation = MKPointAnnotation()
-                    annotation.coordinate = placemark.location.coordinate
+                    self.userLat = placemark.location.coordinate.latitude
+                    self.userLon = placemark.location.coordinate.longitude
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: self.userLat!, longitude: self.userLon!)
                     let mapRegion = MKCoordinateRegion(center: annotation.coordinate, span: MKCoordinateSpanMake(CLLocationDegrees(0.1), CLLocationDegrees(0.1)))
                     self.mapView.addAnnotation(annotation)
                     self.mapView.setRegion(mapRegion, animated: true)
@@ -108,5 +89,41 @@ class InformationPostingView: UIViewController, MKMapViewDelegate {
                 }
             }
         }
+    }
+    
+    func postStudentData() {
+        let jsonBody: [String: AnyObject] = [
+            OnTheMapClient.ParseJSONResponseKeys.UniqueKey: OnTheMapClient.sharedInstance().accountID!,
+            OnTheMapClient.ParseJSONResponseKeys.FirstName: OnTheMapClient.sharedInstance().firstName!,
+            OnTheMapClient.ParseJSONResponseKeys.LastName: OnTheMapClient.sharedInstance().lastName!,
+            OnTheMapClient.ParseJSONResponseKeys.Latitude: self.userLat!,
+            OnTheMapClient.ParseJSONResponseKeys.Longitude: self.userLon!,
+            OnTheMapClient.ParseJSONResponseKeys.MapString: locationText.text!,
+            OnTheMapClient.ParseJSONResponseKeys.MediaURL: mediaText.text!
+            ]
+        
+        OnTheMapClient.sharedInstance().postDataToParse(jsonBody) { success, errorString in
+            if success {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else {
+                println("\(errorString)")
+            }
+        }
+    }
+}
+
+extension InformationPostingView {
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        textView.text = ""
+    }
+    
+    // To return from textView
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
 }

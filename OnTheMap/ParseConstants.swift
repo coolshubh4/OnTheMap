@@ -30,7 +30,8 @@ extension OnTheMapClient {
     
     
     struct ParseJSONResponseKeys {
-    
+        
+        static let Result = "results"
         static let ObjectId = "objectId"
         static let UniqueKey = "uniqueKey"
         static let FirstName = "firstName"

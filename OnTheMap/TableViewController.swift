@@ -10,7 +10,7 @@ import UIKit
 
 class TableViewController: UITableViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var locations = [[String: AnyObject]]()
+    //var locations = [[String: AnyObject]]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,23 +21,30 @@ class TableViewController: UITableViewController, UITableViewDelegate, UITableVi
         let pinButton = UIBarButtonItem(image: UIImage(named: "Pin"), style: UIBarButtonItemStyle.Plain, target: self, action: "pinStudent")
         navigationItem.rightBarButtonItems = [refreshButton, pinButton]
         
-        self.locations = StudentInfo.hardCodedLocationData()
+        //self.locations = StudentInfo.hardCodedLocationData()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locations.count
+        return OnTheMapClient.sharedInstance().studentData.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("StudentPin") as! OnTheMapTableViewCell
-        let location = locations[indexPath.row]
-        
-        let firstName = location["firstName"] as? String
-        let lastName = location["lastName"] as? String
-        cell.studentName.text = firstName! + " " + lastName!
-        cell.studentLocation.text = location["mapString"] as? String
+        let student = OnTheMapClient.sharedInstance().studentData[indexPath.row]
+
+        cell.studentName?.text = "\(student.firstName!) \(student.lastName!)"
+        cell.studentLocation?.text = "\(student.mapString!)"
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let student = OnTheMapClient.sharedInstance().studentData[indexPath.row]
+        
+        if let url = NSURL(string: student.mediaURL!) {
+            let app = UIApplication.sharedApplication()
+            app.openURL(url)
+        }
     }
     
     func pinStudent() {
@@ -46,6 +53,7 @@ class TableViewController: UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func logout() {
+        OnTheMapClient.sharedInstance().udacityDeleteSession()
         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! UIViewController
         presentViewController(controller, animated: true, completion: nil)
     }

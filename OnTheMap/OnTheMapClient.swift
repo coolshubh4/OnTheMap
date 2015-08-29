@@ -13,7 +13,7 @@ class OnTheMapClient: NSObject {
     var session: NSURLSession
     
     // Student Info
-    var student = [StudentInfo]()
+    var studentData = [StudentInfo]()
     
     var accountID: String? = nil
     var firstName: String? = nil
@@ -40,11 +40,9 @@ class OnTheMapClient: NSObject {
     }
     
     func logInToUdacity(jsonBody: [String: AnyObject], completionHandler: (success: Bool, errorString: String?) -> Void) {
-        println("Inside logInToUdacity")
-        udacityPostSession(jsonBody) { (success, accountID, errorString) -> Void in
+        udacityPostSession(jsonBody) { success, accountID, errorString in
             if success {
                 self.accountID = accountID
-                println("Inside logInToUdacity accountID -  \(self.accountID!)")
                 self.udacityGetUserData(self.accountID!) { (success, error) -> Void in
                     if success {
                         completionHandler(success: true, errorString: nil)
@@ -54,6 +52,17 @@ class OnTheMapClient: NSObject {
                 }
             } else {
                 completionHandler(success: false, errorString: "Not able to log into Udacity \(errorString!)")
+            }
+        }
+    }
+    
+    func postDataToParse(jsonBody: [String: AnyObject], completionHandler: (success: Bool, errorString: String?) -> Void) {
+        parsePostStudentLocation(jsonBody) { success, objectID, errorString in
+            if success {
+                self.objectID = objectID
+                completionHandler(success: true, errorString: nil)
+            } else {
+                completionHandler(success: false, errorString: "Error - \(errorString)")
             }
         }
     }

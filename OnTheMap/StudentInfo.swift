@@ -16,21 +16,21 @@ struct StudentInfo {
     var mapString: String? = nil
     var mediaURL: String? = nil
     var objectId: String? = nil
-    var uniqueKey: Int? = nil
+    var uniqueKey: String? = nil
     var updatedAt: String? = nil
     
-    init (dictionary: [String: AnyObject]) {
+    init (studentDict: [String: AnyObject]) {
     
-        createdAt = dictionary[OnTheMapClient.ParseJSONResponseKeys.CreatedAt] as? String
-        firstName = dictionary[OnTheMapClient.ParseJSONResponseKeys.FirstName] as? String
-        lastName = dictionary[OnTheMapClient.ParseJSONResponseKeys.LastName] as? String
-        latitude = dictionary[OnTheMapClient.ParseJSONResponseKeys.Latitude] as? Double
-        longitude = dictionary[OnTheMapClient.ParseJSONResponseKeys.Latitude] as? Double
-        mapString = dictionary[OnTheMapClient.ParseJSONResponseKeys.MapString] as? String
-        mediaURL = dictionary[OnTheMapClient.ParseJSONResponseKeys.MediaURL] as? String
-        objectId = dictionary[OnTheMapClient.ParseJSONResponseKeys.ObjectId] as? String
-        uniqueKey = dictionary[OnTheMapClient.ParseJSONResponseKeys.UniqueKey] as? Int
-        updatedAt = dictionary[OnTheMapClient.ParseJSONResponseKeys.UpdatedAt] as? String
+        createdAt = studentDict[OnTheMapClient.ParseJSONResponseKeys.CreatedAt] as? String
+        firstName = studentDict[OnTheMapClient.ParseJSONResponseKeys.FirstName] as? String
+        lastName = studentDict[OnTheMapClient.ParseJSONResponseKeys.LastName] as? String
+        latitude = studentDict[OnTheMapClient.ParseJSONResponseKeys.Latitude] as? Double
+        longitude = studentDict[OnTheMapClient.ParseJSONResponseKeys.Latitude] as? Double
+        mapString = studentDict[OnTheMapClient.ParseJSONResponseKeys.MapString] as? String
+        mediaURL = studentDict[OnTheMapClient.ParseJSONResponseKeys.MediaURL] as? String
+        objectId = studentDict[OnTheMapClient.ParseJSONResponseKeys.ObjectId] as? String
+        uniqueKey = studentDict[OnTheMapClient.ParseJSONResponseKeys.UniqueKey] as? String
+        updatedAt = studentDict[OnTheMapClient.ParseJSONResponseKeys.UpdatedAt] as? String
     }
     
     static func studentInfoFromResults(results: [[String: AnyObject]]) -> [StudentInfo] {
@@ -38,7 +38,7 @@ struct StudentInfo {
         var student = [StudentInfo]()
         
         for result in results {
-            student.append(StudentInfo(dictionary: result))
+            student.append(StudentInfo(studentDict: result))
         }
         return student
     }

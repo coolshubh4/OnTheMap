@@ -29,13 +29,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        subscribeToKeyboardNotification()
         addKeyboardDismissRecognizer()
+        
+        usernameTextField.placeholder = "Email"
+        passwordTextField.placeholder = "Password"
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        unsubscribeToKeyboardNotification()
         removeKeyboardDismissRecognizer()
     }
     
@@ -48,15 +49,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         } else if passwordTextField.text.isEmpty {
             debugTextLabel.text = "Please enter password"
         } else {
-            println("\(usernameTextField.text)")
-            println("\(passwordTextField.text)")
             debugTextLabel.text = "Attempting login..."
             let jsonBody: [String: AnyObject] =
                 ["udacity": [
                     "username": usernameTextField.text,
                     "password": passwordTextField.text
                 ]]
-            println("\(jsonBody)")
             OnTheMapClient.sharedInstance().logInToUdacity(jsonBody) { success, errorString in
                 if success {
                     dispatch_async(dispatch_get_main_queue()){
@@ -127,43 +125,6 @@ extension LoginViewController {
         tapRecognizer?.numberOfTapsRequired = 1
         
     }
-}
-
-extension LoginViewController {
-    
-        func subscribeToKeyboardNotification() {
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-    }
-    
-    func unsubscribeToKeyboardNotification() {
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-    }
-    
-    func keyboardWillShow(notification: NSNotification) {
-        
-        if passwordTextField.isFirstResponder() {
-            self.view.frame.origin.y -= getKeyboardHeight(notification)
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        
-        if passwordTextField.isFirstResponder() {
-            self.view.frame.origin.y = 0
-        }   
-    }
-    
-    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
-        
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-        
-        return keyboardSize.CGRectValue().height
-    }
     
     func addKeyboardDismissRecognizer() {
         self.view.addGestureRecognizer(tapRecognizer!)
@@ -179,6 +140,6 @@ extension LoginViewController {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-            return true
+        return true
     }
 }
