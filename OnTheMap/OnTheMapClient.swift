@@ -29,8 +29,7 @@ class OnTheMapClient: NSObject {
     func dictToJson(dict: [String: AnyObject]) -> NSData? {
         
         var jsonError: NSError? = nil
-        
-        let jsonDict = NSJSONSerialization.dataWithJSONObject(dict, options: nil, error: &jsonError)
+        var jsonDict = NSJSONSerialization.dataWithJSONObject(dict, options: nil, error: &jsonError)
         
         if let result = jsonDict {
             return result
@@ -40,17 +39,35 @@ class OnTheMapClient: NSObject {
         }
     }
     
+    func logInToUdacity(jsonBody: [String: AnyObject], completionHandler: (success: Bool, errorString: String?) -> Void) {
+        println("Inside logInToUdacity")
+        udacityPostSession(jsonBody) { (success, accountID, errorString) -> Void in
+            if success {
+                self.accountID = accountID
+                println("Inside logInToUdacity accountID -  \(self.accountID!)")
+                self.udacityGetUserData(self.accountID!) { (success, error) -> Void in
+                    if success {
+                        completionHandler(success: true, errorString: nil)
+                    } else {
+                        completionHandler(success: false, errorString: "\(error)")
+                    }
+                }
+            } else {
+                completionHandler(success: false, errorString: "Not able to log into Udacity \(errorString!)")
+            }
+        }
+    }
+    
     /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
         var parsingError: NSError? = nil
-        
-        let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
+        let parsedResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as? NSDictionary
         
         if let error = parsingError {
             completionHandler(result: nil, error: error)
         } else {
-            completionHandler(result: parsedResult, error: nil)
+            completionHandler(result: parsedResult!, error: nil)
         }
     }
     

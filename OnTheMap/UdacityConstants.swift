@@ -22,7 +22,7 @@ extension OnTheMapClient {
     struct UdacityJSONResponseKeys {
         
         static let AccountKey = "key"
-        static let Account = "account/"
+        static let Account = "account"
         static let User = "user"
         static let FirstName = "first_name"
         static let LastName = "last_name"

@@ -33,7 +33,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         addKeyboardDismissRecognizer()
     }
     
-    override func   viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         unsubscribeToKeyboardNotification()
         removeKeyboardDismissRecognizer()
@@ -48,12 +48,28 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         } else if passwordTextField.text.isEmpty {
             debugTextLabel.text = "Please enter password"
         } else {
-            completeLogin()
+            println("\(usernameTextField.text)")
+            println("\(passwordTextField.text)")
+            debugTextLabel.text = "Attempting login..."
+            let jsonBody: [String: AnyObject] =
+                ["udacity": [
+                    "username": usernameTextField.text,
+                    "password": passwordTextField.text
+                ]]
+            println("\(jsonBody)")
+            OnTheMapClient.sharedInstance().logInToUdacity(jsonBody) { success, errorString in
+                if success {
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.completeLogin()
+                    }
+                } else {
+                    self.debugTextLabel.text = errorString!
+                }
+            }
         }
     }
     
     func completeLogin() {
-        
         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("OnTheMapTabBarController") as! UITabBarController
         presentViewController(controller, animated: true, completion: nil)
     }
