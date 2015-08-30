@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // is set up as the map view's delegate.
     @IBOutlet weak var mapView: MKMapView!
     
+    var annnotations = [MKPointAnnotation]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,16 +47,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func populateMapView() {
         
-        var annnotations = [MKPointAnnotation]()
-        
         for student in OnTheMapClient.sharedInstance().studentData {
-            
-            let lat = CLLocationDegrees(student.latitude!)
-            let lon = CLLocationDegrees(student.longitude!)
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+
+            println("\(student.firstName!) \(student.lastName!) - Lat:\(student.latitude!) Lon:\(student.longitude!)")
+//            
+//            var lat = student.latitude!; println("lat - \(lat)")
+//            var lon = student.longitude!; println("lon - \(lon)")
+//            //var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
 
             var annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
+            annotation.coordinate = student.coordinate!
             annotation.title = "\(student.firstName!) \(student.lastName!)"
             annotation.subtitle = "\(student.mediaURL!)"
             
@@ -63,7 +64,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         dispatch_async(dispatch_get_main_queue()) {
             self.mapView.removeAnnotations(self.mapView.annotations)
-            self.mapView.addAnnotations(annnotations)
+            self.mapView.addAnnotations(self.annnotations)
         }
     }
     

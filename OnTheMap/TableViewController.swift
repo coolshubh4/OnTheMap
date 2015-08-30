@@ -17,11 +17,16 @@ class TableViewController: UITableViewController, UITableViewDelegate, UITableVi
         // Add NavigationItems
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: nil)
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: "refreshData")
         let pinButton = UIBarButtonItem(image: UIImage(named: "Pin"), style: UIBarButtonItemStyle.Plain, target: self, action: "pinStudent")
         navigationItem.rightBarButtonItems = [refreshButton, pinButton]
         
         //self.locations = StudentInfo.hardCodedLocationData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,6 +50,10 @@ class TableViewController: UITableViewController, UITableViewDelegate, UITableVi
             let app = UIApplication.sharedApplication()
             app.openURL(url)
         }
+    }
+    
+    func refreshData() {
+        tableView.reloadData()
     }
     
     func pinStudent() {

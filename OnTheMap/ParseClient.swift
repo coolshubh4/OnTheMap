@@ -30,6 +30,7 @@ extension OnTheMapClient {
                             if let dataArray = dataResult[ParseJSONResponseKeys.Result] as? [[String: AnyObject]] {
                                 OnTheMapClient.sharedInstance().studentData.removeAll(keepCapacity: true)
                                 for element in dataArray {
+                                    println("element - \(element)")
                                     let student = StudentInfo(studentDict: element)
                                     OnTheMapClient.sharedInstance().studentData.append(student)
                                 }
