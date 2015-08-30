@@ -47,11 +47,11 @@ class OnTheMapClient: NSObject {
                     if success {
                         completionHandler(success: true, errorString: nil)
                     } else {
-                        completionHandler(success: false, errorString: "\(error)")
+                        completionHandler(success: false, errorString: "\(error!)")
                     }
                 }
             } else {
-                completionHandler(success: false, errorString: "Not able to log into Udacity \(errorString!)")
+                completionHandler(success: false, errorString: "\(errorString!)")
             }
         }
     }

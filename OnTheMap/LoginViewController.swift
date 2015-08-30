@@ -43,13 +43,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func login(sender: UIButton) {
         
         if usernameTextField.text.isEmpty && passwordTextField.text.isEmpty {
-            debugTextLabel.text = "Please enter user-name and password"
+            displayAlertView("Please enter user-name and password")
         } else if usernameTextField.text.isEmpty{
-            debugTextLabel.text = "Please enter user-name"
+            displayAlertView("Please enter user-name")
         } else if passwordTextField.text.isEmpty {
-            debugTextLabel.text = "Please enter password"
+            displayAlertView("Please enter password")
         } else {
-            debugTextLabel.text = "Attempting login..."
+            debugTextLabel.text = "Attempting to login..."
             let jsonBody: [String: AnyObject] =
                 ["udacity": [
                     "username": usernameTextField.text,
@@ -61,10 +61,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         self.completeLogin()
                     }
                 } else {
-                    self.debugTextLabel.text = errorString!
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.debugTextLabel.text = ""
+                        self.displayAlertView(errorString!)
+                    }
                 }
             }
         }
+    }
+    
+    func displayAlertView(alertMessage: String) {
+        
+        let alert = UIAlertController(title: "Error", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: nil))
+        presentViewController(alert, animated: true, completion: nil)
     }
     
     func completeLogin() {

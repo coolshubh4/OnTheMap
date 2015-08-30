@@ -22,7 +22,7 @@ extension OnTheMapClient {
         
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
             if downloadError != nil {
-                completionHandler(success: false, accountID: nil, errorString: "No network connection \(downloadError)")
+                completionHandler(success: false, accountID: nil, errorString: "No network connection available.")
             } else {
                 let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
                 OnTheMapClient.parseJSONWithCompletionHandler(newData) { result, error in
@@ -35,7 +35,7 @@ extension OnTheMapClient {
                                 completionHandler(success: false, accountID: nil, errorString: "1. Cannot retrieve accountID - \(error)")
                             }
                         } else {
-                            completionHandler(success: false, accountID: nil, errorString: "2. Login failed - \(error)")
+                            completionHandler(success: false, accountID: nil, errorString: "Cannot login. Invalid credentials")
                         }
                     } else {
                         completionHandler(success: false, accountID: nil, errorString: "3. Login failed - \(error)")
