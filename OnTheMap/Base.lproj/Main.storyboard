@@ -93,17 +93,24 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BmX-EM-FbE">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </mapView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="QJ7-gn-x1K">
+                                <rect key="frame" x="282" y="289" width="37" height="37"/>
+                                <color key="color" red="0.7725490196" green="0.7725490196" blue="0.7725490196" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ogf-yv-f51" firstAttribute="top" secondItem="BmX-EM-FbE" secondAttribute="bottom" id="7lg-k3-pQB"/>
                             <constraint firstItem="BmX-EM-FbE" firstAttribute="leading" secondItem="SqN-Oa-oAm" secondAttribute="leadingMargin" constant="-16" id="Pd7-TX-R0B"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BmX-EM-FbE" secondAttribute="trailing" constant="-16" id="geo-IF-g8H"/>
+                            <constraint firstAttribute="centerX" secondItem="QJ7-gn-x1K" secondAttribute="centerX" constant="-0.5" id="geu-P5-gmV"/>
+                            <constraint firstAttribute="centerY" secondItem="QJ7-gn-x1K" secondAttribute="centerY" constant="-7.5" id="kmE-Op-fDG"/>
                             <constraint firstItem="BmX-EM-FbE" firstAttribute="top" secondItem="C8M-E1-yEl" secondAttribute="bottom" id="xDg-ph-h5L"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="On The Map" id="2Ua-TB-uMO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="QJ7-gn-x1K" id="P86-ks-lXa"/>
                         <outlet property="mapView" destination="BmX-EM-FbE" id="k0B-3f-hB8"/>
                     </connections>
                 </viewController>
@@ -213,10 +220,15 @@
                                     <action selector="findOrSubmitButton:" destination="uai-8h-Nyr" eventType="touchUpInside" id="o68-8m-Or6"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="OE2-G6-4X8">
+                                <rect key="frame" x="282" y="285" width="37" height="37"/>
+                                <color key="color" red="0.7725490196" green="0.7725490196" blue="0.7725490196" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.7725490196" green="0.7725490196" blue="0.7725490196" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="9i6-4H-EhH" firstAttribute="leading" secondItem="7HC-f4-k8v" secondAttribute="leadingMargin" constant="-16" id="0Pq-mz-IIg"/>
+                            <constraint firstAttribute="centerX" secondItem="OE2-G6-4X8" secondAttribute="centerX" constant="-0.5" id="BOL-xR-KLP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EwM-wg-vWb" secondAttribute="trailing" constant="-16" id="BPh-UF-q6O"/>
                             <constraint firstItem="EwM-wg-vWb" firstAttribute="leading" secondItem="7HC-f4-k8v" secondAttribute="leadingMargin" constant="-16" id="FfY-ZA-C6n"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pIT-Ce-59K" secondAttribute="trailing" constant="-16" id="IXj-zM-6zK"/>
@@ -230,11 +242,13 @@
                             <constraint firstItem="Ndc-03-K5j" firstAttribute="top" secondItem="EwM-wg-vWb" secondAttribute="bottom" id="m6q-vG-bEJ"/>
                             <constraint firstItem="Ndc-03-K5j" firstAttribute="top" secondItem="9i6-4H-EhH" secondAttribute="bottom" constant="169" id="mSu-zL-pGV"/>
                             <constraint firstItem="bDu-hM-n84" firstAttribute="top" secondItem="qXL-ET-iCu" secondAttribute="bottom" id="mfe-Rm-W1C"/>
+                            <constraint firstAttribute="centerY" secondItem="OE2-G6-4X8" secondAttribute="centerY" constant="-3.5" id="pOY-vX-kX6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bDu-hM-n84" secondAttribute="trailing" constant="-6" id="wVT-VM-gYZ"/>
                             <constraint firstItem="9i6-4H-EhH" firstAttribute="top" secondItem="pIT-Ce-59K" secondAttribute="bottom" constant="8" id="zSx-I5-Rx6"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="OE2-G6-4X8" id="rTf-46-xrj"/>
                         <outlet property="findOrSubmitButton" destination="71h-WD-LMi" id="fQ4-9V-P9S"/>
                         <outlet property="locationText" destination="9i6-4H-EhH" id="qyO-Tl-7Xb"/>
                         <outlet property="mapView" destination="EwM-wg-vWb" id="c8h-s4-e4d"/>

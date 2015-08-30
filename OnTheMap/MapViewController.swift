@@ -14,6 +14,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // The map. See the setup in the Storyboard file. Note particularly that the view controller
     // is set up as the map view's delegate.
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var annnotations = [MKPointAnnotation]()
     override func viewDidLoad() {
@@ -27,7 +28,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         navigationItem.rightBarButtonItems = [refreshButton, pinButton]
         
         mapView.delegate = self
-        
+        activityIndicator.hidesWhenStopped = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -48,12 +49,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func populateMapView() {
         
         for student in OnTheMapClient.sharedInstance().studentData {
-
-            println("\(student.firstName!) \(student.lastName!) - Lat:\(student.latitude!) Lon:\(student.longitude!)")
-//            
-//            var lat = student.latitude!; println("lat - \(lat)")
-//            var lon = student.longitude!; println("lon - \(lon)")
-//            //var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
 
             var annotation = MKPointAnnotation()
             annotation.coordinate = student.coordinate!
@@ -97,6 +92,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let app = UIApplication.sharedApplication()
             app.openURL(NSURL(string: annotationView.annotation.subtitle!)!)
         }
+    }
+    
+    func mapViewWillStartRenderingMap(mapView: MKMapView!) {
+        activityIndicator.startAnimating()
+    }
+    
+    func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
+        activityIndicator.stopAnimating()
     }
     
     func pinStudent() {

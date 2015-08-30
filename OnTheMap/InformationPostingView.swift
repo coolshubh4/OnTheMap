@@ -15,6 +15,7 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
     @IBOutlet weak var mediaText: UITextView!
     @IBOutlet weak var locationText: UITextView!
     @IBOutlet weak var findOrSubmitButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var userLat: CLLocationDegrees? = nil
     var userLon: CLLocationDegrees? = nil
@@ -25,6 +26,7 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
         mapView.delegate = self
         locationText.delegate = self
         mediaText.delegate = self
+        activityIndicator.hidesWhenStopped = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -34,6 +36,7 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
         mapView.hidden = true
         locationText.hidden = false
         locationText.text = "Enter your location"
+        activityIndicator.hidden = true
         findOrSubmitButton.setTitle("Find on the Map", forState: .Normal)
     }
     
@@ -55,6 +58,7 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
         if action == "Find on the Map" {
             mediaText.text = "Enter URL to share"
             getLatLonForLocation(locationText.text)
+            activityIndicator.hidden = false
         } else if action == "Submit" {
             postStudentData()
         }
@@ -66,9 +70,9 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
             
             if error != nil {
                 println("Error - \(error)")
-                let alert = UIAlertController(title: "alert", message: "\(self.locationText.text!) not found", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Default, handler: nil))
-                alert.addAction(UIAlertAction(title: "cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+                self.activityIndicator.stopAnimating()
+                let alert = UIAlertController(title: "Error", message: "\(self.locationText.text!) not found", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
                 
             } else {
@@ -89,6 +93,14 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
                 }
             }
         }
+    }
+    
+    func mapViewWillStartRenderingMap(mapView: MKMapView!) {
+        activityIndicator.startAnimating()
+    }
+    
+    func mapViewDidFinishRenderingMap(mapView: MKMapView!, fullyRendered: Bool) {
+        activityIndicator.stopAnimating()
     }
     
     func postStudentData() {
