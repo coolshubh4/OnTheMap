@@ -11,7 +11,7 @@ extension OnTheMapClient {
 
     func parseGetStudentLocations(completionHandler: (success: Bool, errorString: String?) -> Void) {
         
-        let urlString = ParseConstants.BaseURL + ParseMethods.StudentLocation
+        let urlString = ParseConstants.BaseURL + ParseMethods.StudentLocation + "?order=-updatedAt"
         let url = NSURL(string: urlString)!
         
         let request = NSMutableURLRequest(URL: url)
@@ -20,7 +20,7 @@ extension OnTheMapClient {
         
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
             if downloadError != nil {
-                completionHandler(success: false, errorString: "\(downloadError)")
+                completionHandler(success: false, errorString: "No network connection available")
             } else {
                 OnTheMapClient.parseJSONWithCompletionHandler(data) { result, error in
                     if error != nil {
@@ -30,7 +30,6 @@ extension OnTheMapClient {
                             if let dataArray = dataResult[ParseJSONResponseKeys.Result] as? [[String: AnyObject]] {
                                 OnTheMapClient.sharedInstance().studentData.removeAll(keepCapacity: true)
                                 for element in dataArray {
-                                    println("element - \(element)")
                                     let student = StudentInfo(studentDict: element)
                                     OnTheMapClient.sharedInstance().studentData.append(student)
                                 }
@@ -62,17 +61,17 @@ extension OnTheMapClient {
         
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
             if downloadError != nil {
-                completionHandler(success: false, objectID: nil, errorString: "\(downloadError)")
+                completionHandler(success: false, objectID: nil, errorString: "No network connection available")
             } else {
                 OnTheMapClient.parseJSONWithCompletionHandler(data) { result, error in
                     if let dataResult = result as? [String: AnyObject] {
                         if let objectID = dataResult[ParseJSONResponseKeys.ObjectId] as? String {
                             completionHandler(success: true, objectID: objectID, errorString: nil)
                         } else {
-                            completionHandler(success: false, objectID: nil, errorString: "Error while posting pin - \(error)")
+                            completionHandler(success: false, objectID: nil, errorString: "Error while posting pin")
                         }
                     } else {
-                        completionHandler(success: false, objectID: nil, errorString: "Not able to parse \(result) - \(error)")
+                        completionHandler(success: false, objectID: nil, errorString: "Not able to parse")
                     }
                 }
             }

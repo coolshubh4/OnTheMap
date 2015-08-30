@@ -20,8 +20,6 @@ class TableViewController: UITableViewController, UITableViewDelegate, UITableVi
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: "refreshData")
         let pinButton = UIBarButtonItem(image: UIImage(named: "Pin"), style: UIBarButtonItemStyle.Plain, target: self, action: "pinStudent")
         navigationItem.rightBarButtonItems = [refreshButton, pinButton]
-        
-        //self.locations = StudentInfo.hardCodedLocationData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -53,7 +51,17 @@ class TableViewController: UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func refreshData() {
-        tableView.reloadData()
+        OnTheMapClient.sharedInstance().parseGetStudentLocations() { success, errorString in
+            if success {
+                self.tableView.reloadData()
+            } else {
+                dispatch_async(dispatch_get_main_queue()){
+                    let alert = UIAlertController(title: "Error", message: "\(errorString!)", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     func pinStudent() {

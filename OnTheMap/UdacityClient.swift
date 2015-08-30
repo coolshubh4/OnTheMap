@@ -22,7 +22,7 @@ extension OnTheMapClient {
         
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
             if downloadError != nil {
-                completionHandler(success: false, accountID: nil, errorString: "No network connection available.")
+                completionHandler(success: false, accountID: nil, errorString: "No network connection available")
             } else {
                 let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
                 OnTheMapClient.parseJSONWithCompletionHandler(newData) { result, error in

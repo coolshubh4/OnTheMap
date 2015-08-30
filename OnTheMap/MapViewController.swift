@@ -41,7 +41,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if success {
                 self.populateMapView()
             } else {
-                println("Error - \(errorString!)")
+                dispatch_async(dispatch_get_main_queue()){
+                    let alert = UIAlertController(title: "Error", message: "\(errorString!)", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
             }
         }
     }

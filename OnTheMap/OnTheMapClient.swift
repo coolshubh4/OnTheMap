@@ -43,7 +43,7 @@ class OnTheMapClient: NSObject {
         udacityPostSession(jsonBody) { success, accountID, errorString in
             if success {
                 self.accountID = accountID
-                self.udacityGetUserData(self.accountID!) { (success, error) -> Void in
+                self.udacityGetUserData(self.accountID!) { success, error in
                     if success {
                         completionHandler(success: true, errorString: nil)
                     } else {
@@ -62,7 +62,7 @@ class OnTheMapClient: NSObject {
                 self.objectID = objectID
                 completionHandler(success: true, errorString: nil)
             } else {
-                completionHandler(success: false, errorString: "Error - \(errorString)")
+                completionHandler(success: false, errorString: "\(errorString!)")
             }
         }
     }

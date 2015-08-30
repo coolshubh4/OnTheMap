@@ -45,7 +45,6 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
     }
     
     @IBAction func findOrSubmitButton(sender: UIButton!){
-        println("\(sender.titleLabel?.text)")
         if sender.titleLabel?.text == "Find on the Map" {
             findOrSubmit(sender.titleLabel?.text)
         }   else if sender.titleLabel?.text == "Submit" {
@@ -69,12 +68,9 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
         CLGeocoder().geocodeAddressString(userLocation) { placemarks, error in
             
             if error != nil {
-                println("Error - \(error)")
                 self.activityIndicator.stopAnimating()
-                let alert = UIAlertController(title: "Error", message: "\(self.locationText.text!) not found", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-                
+                let errMsg: String? = (error!.code == 8) ? "\(userLocation) cannot be located on the map. Please retry with a different location" : "No network connection available"
+                self.displayAlertView(errMsg!)
             } else {
                 if placemarks == nil {
                     println("placemarks returned as nil")
@@ -118,9 +114,18 @@ class InformationPostingView: UIViewController, MKMapViewDelegate, UITextViewDel
             if success {
                 self.dismissViewControllerAnimated(true, completion: nil)
             } else {
-                println("\(errorString)")
+                dispatch_async(dispatch_get_main_queue()){
+                    self.displayAlertView(errorString!)
+                }
             }
         }
+    }
+    
+    func displayAlertView(alertMessage: String!) {
+        
+        let alert = UIAlertController(title: "Error", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: nil))
+        presentViewController(alert, animated: true, completion: nil)
     }
 }
 

@@ -70,7 +70,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func displayAlertView(alertMessage: String) {
+    func displayAlertView(alertMessage: String!) {
         
         let alert = UIAlertController(title: "Error", message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Cancel, handler: nil))
